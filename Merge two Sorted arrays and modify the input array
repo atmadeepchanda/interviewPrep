@@ -1,7 +1,7 @@
 // Merge two sorted arrays and modify the input array
 // Do it in O(n + m) time
 // start by iterating from backwards
-
+// Link to question -> https://leetcode.com/problems/merge-sorted-array/description/?envType=study-plan-v2&envId=top-interview-150
 class Solution {
 public:
     void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
