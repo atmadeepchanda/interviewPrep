@@ -1,6 +1,7 @@
+// Its a must do for interview prep
 // Merge two sorted arrays and modify the input array
 // Do it in O(n + m) time
-// start by iterating from backwards
+// start by iterating from backwards and fill result from backwards
 // Link to question -> https://leetcode.com/problems/merge-sorted-array/description/?envType=study-plan-v2&envId=top-interview-150
 class Solution {
 public:
