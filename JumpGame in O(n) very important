@@ -60,3 +60,32 @@ public:
         return ans[0];
     }
 };
+
+
+
+
+
+// Below is second solution which uses O(1) space and is again very important
+// The idea is that if nums[i]==0 and the index we are currently on is the current maxIndex, then there is no way to reach the end.
+// If maxIndex exceeds array size, then we have reached the end.
+// What we do is we determine what is the maximum maxIndex we can reach by doing i+nums[i] and comparing it with present maxIndex and then we keep iterating till then
+// unless we find a new maxIndex. We do this because if for i+nums[i] =j , that means we can reach all other indices before j. So we can keep iterating till we reach j and in
+// meantime, we can get another maxIndex on the way. Pretty cool soln it is.
+
+
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int maxIdx = nums[0];
+
+        for (int i = 0; i < nums.size(); ++i) {
+            if (maxIdx >= nums.size() - 1) return true;
+
+            if (nums[i] == 0 and maxIdx == i) return false;
+
+            if (i + nums[i] > maxIdx) maxIdx = i + nums[i];
+        }
+
+        return true;
+    }
+};
