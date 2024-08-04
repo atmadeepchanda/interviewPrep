@@ -1,0 +1,62 @@
+// JumpGame problem
+// very important for interview
+// this solution solves it in O(n) time and O(n) space
+// Question link -> https://leetcode.com/problems/jump-game/description/?envType=study-plan-v2&envId=top-interview-150
+
+// The logic is that we iterate from the right and try to think of a solution such that for each index, we know if that index can lead us to the end and suppose
+// the value at that index is 5, then we also store suffix sum such that we get if from i+1 and i+5, we have a way to get to the end;
+
+// the canReach array will have values like 1,1,0,1,0,0,1,1,1 where 1 signifies if we can reach the end from that index. We can use this same array as answer.
+// Just for ease of understanding I used a separate array of booleans.
+// the suffix array will have the right summation till an index, which basically means for a particular index, if the sum from the right > 0, then it means, there is atleast
+// one way from that index to reach the end.
+// BUT we already have this information in the canReach array so WHY USE another array suffix ?????
+// We use another array suffix to determine if there is a way to the end in between an interval, like i+1 to i+nums[i]
+// we find the suffix sum in this interval to determine if there is a way to get to the end.
+
+// Check code for better explanation.
+
+
+
+
+
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int n=nums.size();
+        if(n==1){
+            return true;
+        }
+        vector<int> canReach(n,0);
+        canReach[n-1]=1;
+        vector<int> suffix(n,0);
+        suffix[n-1]=1;
+        vector<bool> ans(n,false);
+        ans[n-1]=true;
+        for(int i=n-2;i>=0;i--) {
+            if(nums[i]==0){
+                ans[i]=false;
+                canReach[i]=0;
+                suffix[i]=canReach[i]+suffix[i+1];
+            }
+            else{
+                int lowerBound = min(i+1,n-1);
+                int upperBound = min(i+nums[i],n-1);
+                int noOfWays=suffix[lowerBound];
+                if(upperBound+1<n){
+                    noOfWays-=suffix[upperBound+1];
+                }
+                if(noOfWays>0){
+                    ans[i]=true;
+                    canReach[i]=1;
+                }
+                else{
+                    ans[i]=false;
+                    canReach[i]=0;
+                }
+                suffix[i]=canReach[i]+suffix[i+1];
+            }
+        }
+        return ans[0];
+    }
+};
