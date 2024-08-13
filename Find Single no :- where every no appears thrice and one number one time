@@ -1,0 +1,30 @@
+// Question -> https://leetcode.com/problems/single-number-ii/description/?envType=study-plan-v2&envId=top-interview-150
+// Approach
+// we count the no of times a particular bit from 0 to 32 or 0 to 64 (depending on limit of numbers).
+// if a bit is set a multiple of  3 times, it means, the numbers which contain that bit are present 3 times or multiple of 3 times.
+// If a bit is set not a multiple of 3 times, that bit will be set in our ans as we know, only one number appears once
+
+
+
+// Code
+
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        vector<int> bitCount(32, 0);
+        for (int i = 0; i < 32; i++) {
+            for (int& num : nums) {
+                if ((num >> i) & 1) {
+                    bitCount[i]++;
+                }
+            }
+        }
+        int ans = 0;
+        for (int i = 0; i < 32; i++) {
+            if (bitCount[i] % 3 != 0) {
+                ans = (ans | 1 << i);
+            }
+        }
+        return ans;
+    }
+};
