@@ -1,0 +1,53 @@
+// Question -> https://leetcode.com/problems/asteroid-collision/?envType=study-plan-v2&envId=leetcode-75
+
+// Always try to keep the -ve elements which come first separately
+// since the -ve elements are asteroids moving left, they wont interfere with any asteroid as the stack is empty
+// always only keep +ve elements, i.e. right asterioids in the current stack
+
+
+class Solution {
+public:
+    vector<int> asteroidCollision(vector<int>& asteroids) {
+        vector<int> ans;
+        vector<int> fullAns; // Always try to keep the -ve elements which come first separately
+        for (int i : asteroids) {
+            if (ans.empty()) {
+                if (i > 0) { // store only right asteroids in the current stack
+                    ans.push_back(i);
+                } else {
+                    fullAns.push_back(i); // no right asterioids are there, so store the left asteroids separately
+                }
+                continue;
+            }
+            if (i > 0) {
+                ans.push_back(i); // if next asterioid is right, no issues as the previous ones are also right so no collision
+                continue;
+            }
+            int last = ans.back();
+            int lastAbs = abs(last);
+            int currAbs = abs(i);
+            if (lastAbs == currAbs) { // if magnitude of last and current is same, then both are destroyed, hence the pop_back
+                ans.pop_back();
+                continue;
+            }
+            if (lastAbs > currAbs) { // if magnitude of last > current, then current is destroyed, hence we continue
+                continue;
+            }
+            while (currAbs >= lastAbs) { // when magnitude of current > last and current is left moving asteroid and last is right moving asteroid(already mentioned)
+                ans.pop_back();
+                if (currAbs == lastAbs) { // if magnitude of last and current is same, then both are destroyed
+                    break;
+                }
+                if (ans.empty()) { // all right asteroids are destroyed so we store the left one separately again
+                    fullAns.push_back(i);
+                    break;
+                }
+                lastAbs = abs(ans.back());
+            }
+        }
+        for (int i : ans) {
+            fullAns.push_back(i);
+        }
+        return fullAns;
+    }
+};
