@@ -1,0 +1,71 @@
+// question -> https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/?envType=study-plan-v2&envId=top-interview-150
+
+// Solution and intution
+
+/*
+Intution
+
+When an array is sorted in ascending order and then rotated in either left or
+right direction, the resulting array will have two ascending sorted subarrays
+with the first subarray section, having all elements greater than the second
+subarray section, i.e. min(first sorted subarray section) > max(second sorted
+subarray section).
+
+We can take an example to see this:-
+array -> 1, 2, 3, 4, 5, 6
+
+Suppose we rotate it 3 times to the right, we get
+
+array -> 4, 5, 6, 1 ,2 ,3
+we see that now the array has two sorted subarrays
+
+4, 5, 6 and 1, 2, 3
+
+we need to find the postion of 6 here and then we can easily find the greatest
+and smallest element in the array.
+
+
+we can find the position of the greates element by doing a binary search
+
+if we get an element x which is greater then the first element, i.e. x>=nums[0]
+then we can say that it belongs to the first sorted section because we have
+already discussed that the elements in the second section will always be less
+than any element in the first section.
+
+This way by doing binary search, we can get the position of the greatest
+element.
+*/
+
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int n = nums.size();
+        if (n == 1) {
+            return nums[0];
+        }
+        if (n == 2) {
+            return min(nums[0], nums[1]);
+        }
+        int lb = 0;
+        int ub = n - 1;
+        int greatestElementIndex = 0;
+        while (lb <= ub) {
+
+            int mid = (lb + ub) / 2;
+
+            // if i fall in the first sorted subarray section
+            if (nums[mid] >= nums[0]) {
+                greatestElementIndex = mid;
+                lb = mid + 1;
+            }
+            // I fall in the second sorted subarray section
+            else {
+                ub = mid - 1;
+            }
+        }
+        if (greatestElementIndex == n - 1) {
+            return nums[0];
+        }
+        return nums[greatestElementIndex + 1];
+    }
+};
