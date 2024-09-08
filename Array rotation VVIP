@@ -1,0 +1,20 @@
+// Question -> https://leetcode.com/problems/rotate-array/
+
+// Solution with approach
+
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        int n = nums.size();
+        int d = k % n;
+        // to right rotate use below steps
+        reverse(nums.begin(), nums.end()); // reverse whole array
+        reverse(nums.begin(), nums.begin() + d); // reverse first d elements
+        reverse(nums.begin() + d, nums.end()); // reverse last d elements
+
+        // to left rotate use the below steps
+        // reverse(nums.begin(), nums.begin() + d);  reverse first d elements
+        // reverse(nums.begin() + d, nums.end());  reverse last d elements
+        // reverse(nums.begin(), nums.end());   reverse whole array
+    }
+};
